@@ -18,6 +18,8 @@ export async function runFile(path: string) {
   console.log(textContent.toString());
 }
 
+//This code was adapted from https://jonlinnell.co.uk/articles/node-stdin
+//This code is also found in the nodeJS docs
 async function runPrompt() {
   const rl = readline.createInterface({
     input: process.stdin,
