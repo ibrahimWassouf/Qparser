@@ -75,6 +75,8 @@ function runFile(path) {
     });
 }
 exports.runFile = runFile;
+//This code was adapted from https://jonlinnell.co.uk/articles/node-stdin
+//This code is also found in the nodeJS docs
 function runPrompt() {
     var _a, e_1, _b, _c;
     return __awaiter(this, void 0, void 0, function () {

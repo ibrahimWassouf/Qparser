@@ -12,7 +12,6 @@ export default function main(args: string[]) {
     runPrompt();
   }
 }
-
 export async function runFile(path: string) {
   const textContent = await fsPromise.readFile(path);
   console.log(textContent.toString());
@@ -34,5 +33,6 @@ async function runPrompt() {
   }
   process.exit();
 }
+
 const args = process.argv.slice(2);
 module.exports.init = main(args);

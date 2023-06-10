@@ -1,9 +1,17 @@
 {
   "root": true,
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "project": ["./tsconfig.json"] },
   "plugins": ["@typescript-eslint"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "rules": {
     "@typescript-eslint/strict-boolean-expressions": [
       2,
@@ -11,7 +19,10 @@
         "allowString": false,
         "allowNumber": false
       }
-    ]
+    ],
+    "semi": "error",
+    "no-unused-expressions": "error",
+    "no-undef": "error"
   },
   "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
 }
