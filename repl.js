@@ -47,6 +47,7 @@ exports.runFile = void 0;
 var fsPromise = require("node:fs/promises");
 var process = require("process");
 var readline = require("node:readline/promises");
+var hadError = false;
 function main(args) {
     if (args.length > 1) {
         console.log("Usage: jlox [script]");
@@ -69,12 +70,22 @@ function runFile(path) {
                 case 1:
                     textContent = _a.sent();
                     console.log(textContent.toString());
+                    if (hadError) {
+                        process.exit(65);
+                    }
                     return [2 /*return*/];
             }
         });
     });
 }
 exports.runFile = runFile;
+function error(line, message) {
+    report(line, "", message);
+}
+function report(line, where, message) {
+    console.error("[ ".concat(line, " ] Error ").concat(where, ": ").concat(message));
+    hadError = true;
+}
 //This code was adapted from https://jonlinnell.co.uk/articles/node-stdin
 //This code is also found in the nodeJS docs
 function runPrompt() {
@@ -98,19 +109,17 @@ function runPrompt() {
                     if (!(rl_1_1 = _e.sent(), _a = rl_1_1.done, !_a)) return [3 /*break*/, 5];
                     _c = rl_1_1.value;
                     _d = false;
-                    try {
-                        line = _c;
-                        if (line === ":q")
-                            return [3 /*break*/, 5];
-                        line.slice(2);
-                        process.stdout.write(line + "\n");
-                        process.stdout.write("> ");
-                    }
-                    finally {
-                        _d = true;
-                    }
+                    line = _c;
+                    if (line === ":q")
+                        return [3 /*break*/, 5];
+                    line.slice(2);
+                    process.stdout.write(line + "\n");
+                    process.stdout.write("> ");
+                    hadError = false;
                     _e.label = 4;
-                case 4: return [3 /*break*/, 2];
+                case 4:
+                    _d = true;
+                    return [3 /*break*/, 2];
                 case 5: return [3 /*break*/, 12];
                 case 6:
                     e_1_1 = _e.sent();

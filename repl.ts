@@ -2,6 +2,8 @@ import * as fsPromise from "node:fs/promises";
 import * as process from "process";
 import * as readline from "node:readline/promises";
 
+let hadError = false;
+
 export default function main(args: string[]) {
   if (args.length > 1) {
     console.log("Usage: jlox [script]");
@@ -15,6 +17,18 @@ export default function main(args: string[]) {
 export async function runFile(path: string) {
   const textContent = await fsPromise.readFile(path);
   console.log(textContent.toString());
+  if (hadError) {
+    process.exit(65);
+  }
+}
+
+function error(line: number, message: string) {
+  report(line, "", message);
+}
+
+function report(line: number, where: string, message: string) {
+  console.error(`[ ${line} ] Error ${where}: ${message}`);
+  hadError = true;
 }
 
 //This code was adapted from https://jonlinnell.co.uk/articles/node-stdin
@@ -30,6 +44,7 @@ async function runPrompt() {
     line.slice(2);
     process.stdout.write(line + "\n");
     process.stdout.write("> ");
+    hadError = false;
   }
   process.exit();
 }
